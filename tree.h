@@ -5,7 +5,8 @@ typedef struct tnode_s {
   struct tnode_s *follower;     /* next node at the SAME level */
 } *tnode;
 
-tnode talloc(int);
 tnode depth_first_print(tnode, unsigned);
+void print_label(tnode);
+tnode talloc(int);
 
 

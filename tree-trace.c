@@ -10,11 +10,19 @@ tnode talloc(int root_val) {
   return t;
 }
 
+void print_label(tnode root) {
+  if (root) {
+    printf(" %u", root->val);
+    if (root->follower) printf(" -> %u", root->follower->val);
+  }
+  puts("");
+}
+
 tnode depth_first_print(tnode root, unsigned indent) {
   unsigned i = indent;
   if (root) {
     while (i-- > 0) printf(" |");
-    printf(" %u\n", root->val);
+    print_label(root);
     depth_first_print(root->lt, indent+1);
     depth_first_print(root->rt, indent+1);
   }
