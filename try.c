@@ -6,17 +6,15 @@
 
 tnode full_tree(unsigned, int);
 tnode worst_case_tree(unsigned, int);
-tnode random_tree(unsigned, int, unsigned *);
+tnode random_tree(unsigned, int);
 
 int main(void) {
   tnode t;
   t = full_tree(4, 1);
   /* t = worst_case_tree(8, 1); */
   /* t = full_tree(4, 1); */
-  /* srandom((unsigned) getpid());
-   * t = random_tree(23, 1, NULL);
-   */
-  
+  srandom((unsigned) getpid());
+  t = random_tree(23, 1);
   set_all_followers(t);
   depth_first_print(t, 0);
 }
@@ -48,30 +46,21 @@ tnode worst_case_tree(unsigned n, int root_label) {
   return first;
 }
 
-/* random tree with at most n nodes; it's up to the caller to ensure
+/* random tree with exactly n nodes; it's up to the caller to ensure
    that the PRNG is properly seeded with srandom(3)
 
    on return, if `count` was non-NULL, it will contain the total 
    number of nodes in the returned tree; this will not exceed n
 */
-tnode random_tree(unsigned n, int root_label, unsigned *count) {
-  unsigned left_count = 0, right_count = 0;
+tnode random_tree(unsigned n, int root_label) {
+  n--;                          /* root node */
   if (n == 0) return NULL;
 
-  long int r = random();
+  long int left_count = random() % n;
+  long int right_count = n - left_count;
   tnode root = talloc(root_label++);
-  n--;
-  if (r & 3) {
-    puts("a");
-    root->lt = random_tree(n, root_label, &left_count);
-    n -= left_count;
-    root_label += left_count;
-  }
-  if (r & 4) {
-    puts("b");
-    root->rt = random_tree(n, root_label, &right_count);
-  }
-
-  if (count) *count = 1 + left_count + right_count;
+  root->lt = random_tree(left_count, root_label);
+  root_label += left_count;
+  root->rt = random_tree(right_count, root_label + left_count);
   return root;
 }
