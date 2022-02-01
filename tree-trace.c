@@ -4,7 +4,7 @@
 #include "tree.h"
 
 tnode talloc(int root_val) {
-  tnode t = malloc(sizeof(struct tnode_s)); /* XXX check for NULL return */
+  tnode t = tnode_alloc(); /* XXX check for NULL return */
   t->val = root_val;
   t->lt = t->rt = t->follower = NULL;
   return t;
