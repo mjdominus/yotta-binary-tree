@@ -27,3 +27,18 @@ tnode depth_first_print(tnode root, unsigned indent) {
     depth_first_print(root->rt, indent+1);
   }
 }
+
+void set_all_followers(tnode root) {
+  if (!root) return;
+  set_all_followers(root->lt);
+  set_all_followers(root->rt);
+  link_spines(root->lt, root->rt);
+}
+
+void link_spines(tnode left_side, tnode right_side) {
+  while (left_side && right_side) {
+    left_side->follower = right_side;
+    left_side  = left_side->rt;
+    right_side = right_side->lt;
+  }
+}

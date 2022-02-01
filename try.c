@@ -6,10 +6,12 @@ tnode full_tree(unsigned, int);
 
 int main(void) {
   tnode t = full_tree(4, 1);
+  
+  set_all_followers(t);
   depth_first_print(t, 0);
 }
 
-/* return the root of a full tree with depth n */
+/* return the root of a full tree with depth d */
 tnode full_tree(unsigned d, int root_label) {
   tnode t = NULL;
   if (d == 0) return NULL;
